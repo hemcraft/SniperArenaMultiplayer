@@ -156,7 +156,8 @@ PlayerSettings:
   resetResolutionOnWindowResize: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Standalone: com.DefaultCompany.SniperArenaMultiplayer
   buildNumber:
     Standalone: 0
     iPhone: 0
@@ -817,7 +818,8 @@ PlayerSettings:
   webGLMemoryLinearGrowthStep: 16
   webGLMemoryGeometricGrowthStep: 0.2
   webGLMemoryGeometricGrowthCap: 96
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Standalone: FUSION_WEAVER
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
