@@ -41,11 +41,22 @@ public class NetworkPlayerRig : NetworkBehaviour
     {
         if (networkObject.HasStateAuthority)
         {
-            Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+            float horizontalAxis = Input.GetAxis("Horizontal");
+            float verticalAxis = Input.GetAxis("Vertical");
 
-            characterController.Move(move * speed * Time.deltaTime);
+            var forward = transform.forward;
+            var right = transform.right;
 
-            if (move == Vector3.zero)
+            forward.y = 0f;
+            right.y = 0f;
+            forward.Normalize();
+            right.Normalize();
+
+            var desiredMoveDirection = forward * verticalAxis + right * horizontalAxis;
+
+            characterController.Move(desiredMoveDirection * speed * Time.deltaTime);
+
+            if (desiredMoveDirection == Vector3.zero)
             {
                 if (running == true)
                 {
