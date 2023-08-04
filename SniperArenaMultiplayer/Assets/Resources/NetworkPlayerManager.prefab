@@ -142,6 +142,7 @@ MonoBehaviour:
   soldierAnimator: {fileID: 1387591543275827851}
   soldierMesh: {fileID: 1387591543285334325}
   weapon: {fileID: 59683807859372530}
+  explosionSystem: {fileID: 2374214429217288968}
   playerSoldier:
     serializedVersion: 2
     m_Bits: 64
@@ -367,6 +368,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2314985778286276422, guid: cfcb332d67619214087fa9778edd768a, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314985778286276422, guid: cfcb332d67619214087fa9778edd768a, type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2315104517566434912, guid: cfcb332d67619214087fa9778edd768a, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2315104517566434912, guid: cfcb332d67619214087fa9778edd768a, type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: cfcb332d67619214087fa9778edd768a, type: 3}
@@ -378,6 +395,11 @@ GameObject:
 --- !u!4 &62996595359895718 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4384874954717432, guid: cfcb332d67619214087fa9778edd768a, type: 3}
+  m_PrefabInstance: {fileID: 58646939204528222}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &2374214429217288968 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2315620300943350614, guid: cfcb332d67619214087fa9778edd768a, type: 3}
   m_PrefabInstance: {fileID: 58646939204528222}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2342994209197980604

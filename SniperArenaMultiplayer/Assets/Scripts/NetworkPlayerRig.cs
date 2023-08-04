@@ -10,6 +10,7 @@ public class NetworkPlayerRig : NetworkBehaviour
     public Animator soldierAnimator;
     public GameObject soldierMesh;
     public GameObject weapon;
+    public ParticleSystem explosionSystem;
 
     public LayerMask playerSoldier;
     public LayerMask enemySoldier;
@@ -102,6 +103,7 @@ public class NetworkPlayerRig : NetworkBehaviour
             Debug.Log("Hit: " + hit.collider.name);
         }
 
+        explosionSystem.Play();
         audioSource.Play();
     }
 }
