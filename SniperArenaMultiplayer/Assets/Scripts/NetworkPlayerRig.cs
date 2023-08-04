@@ -77,6 +77,24 @@ public class NetworkPlayerRig : NetworkBehaviour
 
             //fix vertical position
             transform.position = new Vector3(transform.position.x, 1f, transform.position.z);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                Shoot();
+            }
+        }
+    }
+
+    private void Shoot()
+    {
+        Debug.Log("Shoot");
+
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+        RaycastHit hit;
+
+        if(Physics.Raycast(ray, out hit))
+        {
+            Debug.Log("Hit: " + hit.collider.name);
         }
     }
 }
