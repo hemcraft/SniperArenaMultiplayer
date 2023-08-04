@@ -9,10 +9,12 @@ public class NetworkPlayerRig : NetworkBehaviour
     public NetworkObject networkObject;
     public Animator soldierAnimator;
     public GameObject soldierMesh;
+    public GameObject weapon;
 
     public LayerMask playerSoldier;
     public LayerMask enemySoldier;
 
+    private AudioSource audioSource;
     private CharacterController characterController;
 
     private bool running;
@@ -22,6 +24,7 @@ public class NetworkPlayerRig : NetworkBehaviour
         base.Spawned();
 
         characterController = GetComponent<CharacterController>();
+        audioSource = GetComponent<AudioSource>();
 
         if (networkObject.HasStateAuthority)
         {
@@ -30,10 +33,12 @@ public class NetworkPlayerRig : NetworkBehaviour
             Camera.main.transform.localRotation = Quaternion.identity;
 
             soldierMesh.layer = LayerMask.NameToLayer("PlayerSoldier");
+            weapon.layer = LayerMask.NameToLayer("EnemySoldier");
         }
         else
         {
             soldierMesh.layer = LayerMask.NameToLayer("EnemySoldier");
+            weapon.layer = LayerMask.NameToLayer("PlayerSoldier");
         }
     }
 
@@ -92,9 +97,11 @@ public class NetworkPlayerRig : NetworkBehaviour
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
         RaycastHit hit;
 
-        if(Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit))
         {
             Debug.Log("Hit: " + hit.collider.name);
         }
+
+        audioSource.Play();
     }
 }
