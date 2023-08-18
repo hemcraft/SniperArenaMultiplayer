@@ -6,7 +6,10 @@ using UnityEngine;
 public class NetworkPlayerRig : NetworkBehaviour
 {
     [Networked]
-    public NetworkString<_64> playerEditorName { get; set; }
+    public int Health { get; set; }
+
+    [Networked]
+    public NetworkString<_64> PlayerEditorName { get; set; }
 
     public float speed;
     public NetworkObject networkObject;
@@ -38,6 +41,8 @@ public class NetworkPlayerRig : NetworkBehaviour
 
             soldierMesh.layer = LayerMask.NameToLayer("PlayerSoldier");
             weapon.layer = LayerMask.NameToLayer("EnemySoldier");
+
+            Health = 100;
         }
         else
         {
@@ -106,10 +111,30 @@ public class NetworkPlayerRig : NetworkBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             Debug.Log("Hit: " + hit.collider.name);
+
+            if (hit.collider.CompareTag("Player"))
+            {
+                NetworkPlayerRig enemyNetworkPlayerRig = hit.collider.GetComponent<NetworkPlayerRig>();
+                enemyNetworkPlayerRig.HitFromBullet();
+            }
         }
 
         explosionSystem.Play();
         RPCPlayAudio();
+    }
+
+    public void HitFromBullet()
+    {
+        RPCHitFromBullet();
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All, InvokeLocal = true)]
+    public void RPCHitFromBullet()
+    {
+        if (networkObject.HasStateAuthority)
+        {
+            Health = Health - 20;
+        }
     }
 
     [Rpc(RpcSources.All, RpcTargets.All, InvokeLocal = true)]
@@ -132,13 +157,13 @@ public class NetworkPlayerRig : NetworkBehaviour
 
     public void SetEditorName()
     {
-        playerEditorName = gameObject.name;
+        PlayerEditorName = gameObject.name;
     }
 
     IEnumerator SetEditorNameInSeconds()
     {
         yield return new WaitForSeconds(2f);
 
-        gameObject.name = playerEditorName.ToString();
+        gameObject.name = PlayerEditorName.ToString();
     }
 }
