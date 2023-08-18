@@ -10,10 +10,11 @@ public class NetworkEventsManager : MonoBehaviour, INetworkRunnerCallbacks
     public NetworkObject NetworkPlayerManagerPrefab;
 
     private NetworkObject networkPlayerManager;
+    private SpawnManager spawnManager;
 
     private void Start()
     {
-
+        spawnManager = FindObjectOfType<SpawnManager>();
     }
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
@@ -25,7 +26,7 @@ public class NetworkEventsManager : MonoBehaviour, INetworkRunnerCallbacks
             Debug.Log(runner.LocalPlayer.PlayerId);
             networkPlayerManager = runner.Spawn(
                     NetworkPlayerManagerPrefab,
-                    new Vector3(0f, 0f, 0f),
+                    spawnManager.GetSpawnPoint().position,
                     Quaternion.identity,
                     player);
 
