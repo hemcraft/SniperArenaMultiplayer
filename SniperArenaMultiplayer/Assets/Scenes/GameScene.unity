@@ -1438,6 +1438,14 @@ MonoBehaviour:
   - {fileID: 223986267}
   - {fileID: 2117706259}
   - {fileID: 1647408948}
+  leftSpawnPoints:
+  - {fileID: 658877404}
+  - {fileID: 107818578}
+  - {fileID: 245314721}
+  rightSpawnPoints:
+  - {fileID: 223986267}
+  - {fileID: 2117706259}
+  - {fileID: 1647408948}
 --- !u!1001 &328150457
 PrefabInstance:
   m_ObjectHideFlags: 0
