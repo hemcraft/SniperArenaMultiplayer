@@ -25,6 +25,7 @@ public class NetworkPlayerRig : NetworkBehaviour
 
     private AudioSource audioSource;
     private CharacterController characterController;
+    private UserInterface userInterface;
 
     private bool running;
 
@@ -34,6 +35,7 @@ public class NetworkPlayerRig : NetworkBehaviour
 
         characterController = GetComponent<CharacterController>();
         audioSource = GetComponent<AudioSource>();
+        userInterface = FindObjectOfType<UserInterface>();
 
         if (networkObject.HasStateAuthority)
         {
@@ -46,6 +48,7 @@ public class NetworkPlayerRig : NetworkBehaviour
 
             Health = 100;
             healthSlider.value = Health;
+            userInterface.healthValueText.text = Health.ToString();
         }
         else
         {
@@ -60,6 +63,8 @@ public class NetworkPlayerRig : NetworkBehaviour
     {
         if (networkObject.HasStateAuthority)
         {
+            userInterface.healthValueText.text = Health.ToString();
+
             float horizontalAxis = Input.GetAxis("Horizontal");
             float verticalAxis = Input.GetAxis("Vertical");
 
