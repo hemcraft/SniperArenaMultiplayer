@@ -33,6 +33,8 @@ public class NetworkEventsManager : MonoBehaviour, INetworkRunnerCallbacks
 
             networkPlayerManager.gameObject.name = "NetworkPlayerManager - " + player.PlayerId + " -> " +
                         DateTime.UtcNow.Hour.ToString() + ":" + DateTime.UtcNow.Minute.ToString() + ":" + DateTime.UtcNow.Second.ToString();
+
+            networkPlayerManager.GetComponent<NetworkPlayerRig>().SetEditorName();
         }
     }
 

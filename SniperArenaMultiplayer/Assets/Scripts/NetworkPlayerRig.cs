@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class NetworkPlayerRig : NetworkBehaviour
 {
+    [Networked]
+    public NetworkString<_64> playerEditorName { get; set; }
+
     public float speed;
     public NetworkObject networkObject;
     public Animator soldierAnimator;
@@ -40,6 +43,8 @@ public class NetworkPlayerRig : NetworkBehaviour
         {
             soldierMesh.layer = LayerMask.NameToLayer("EnemySoldier");
             weapon.layer = LayerMask.NameToLayer("PlayerSoldier");
+
+            StartCoroutine(SetEditorNameInSeconds());
         }
     }
 
@@ -68,7 +73,7 @@ public class NetworkPlayerRig : NetworkBehaviour
                 {
                     running = false;
 
-                    soldierAnimator.CrossFade("demo_combat_idle", 0.15f);
+                    RPCPlayAnimation("demo_combat_idle", 0.15f);
                 }
             } 
             else
@@ -77,7 +82,7 @@ public class NetworkPlayerRig : NetworkBehaviour
                 {
                     running = true;
 
-                    soldierAnimator.CrossFade("demo_combat_run", 0.15f);
+                    RPCPlayAnimation("demo_combat_run", 0.15f);
                 }
             }
 
@@ -104,6 +109,36 @@ public class NetworkPlayerRig : NetworkBehaviour
         }
 
         explosionSystem.Play();
+        RPCPlayAudio();
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All, InvokeLocal = true)]
+    public void RPCPlayAudio()
+    {
         audioSource.Play();
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All, InvokeLocal = true)]
+    public void RPCPlayAnimation(string stateName, float normalizedTransitionDuration)
+    {
+        soldierAnimator.CrossFade(stateName, normalizedTransitionDuration);
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All, InvokeLocal = false)]
+    public void RPCSetName(string editorName)
+    {
+        gameObject.name = editorName;
+    }
+
+    public void SetEditorName()
+    {
+        playerEditorName = gameObject.name;
+    }
+
+    IEnumerator SetEditorNameInSeconds()
+    {
+        yield return new WaitForSeconds(2f);
+
+        gameObject.name = playerEditorName.ToString();
     }
 }
