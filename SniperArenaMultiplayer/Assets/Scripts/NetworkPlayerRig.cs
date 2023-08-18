@@ -2,6 +2,7 @@ using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NetworkPlayerRig : NetworkBehaviour
 {
@@ -17,6 +18,7 @@ public class NetworkPlayerRig : NetworkBehaviour
     public GameObject soldierMesh;
     public GameObject weapon;
     public ParticleSystem explosionSystem;
+    public Slider healthSlider;
 
     public LayerMask playerSoldier;
     public LayerMask enemySoldier;
@@ -43,6 +45,7 @@ public class NetworkPlayerRig : NetworkBehaviour
             weapon.layer = LayerMask.NameToLayer("EnemySoldier");
 
             Health = 100;
+            healthSlider.value = Health;
         }
         else
         {
@@ -99,6 +102,8 @@ public class NetworkPlayerRig : NetworkBehaviour
                 Shoot();
             }
         }
+
+        healthSlider.value = Health;
     }
 
     private void Shoot()
