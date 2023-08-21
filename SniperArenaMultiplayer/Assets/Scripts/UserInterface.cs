@@ -16,6 +16,7 @@ public class UserInterface : MonoBehaviour
     public GameObject EnemyPlayerScorePanel;
 
     public TextMeshProUGUI WaitingForOtherPlayersText;
+    public TextMeshProUGUI MessageText;
 
     public Image RedBackgroundImage;
     public Image GreenBackgroundImage;
@@ -122,5 +123,19 @@ public class UserInterface : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         GreenBackgroundImage.enabled = false;
+    }
+
+    public void ShowMessage(string message)
+    {
+        StartCoroutine(ShowMessageInSeconds(message));
+    }
+
+    IEnumerator ShowMessageInSeconds(string message)
+    {
+        MessageText.text = message;
+
+        yield return new WaitForSeconds(3f);
+
+        MessageText.text = "";
     }
 }

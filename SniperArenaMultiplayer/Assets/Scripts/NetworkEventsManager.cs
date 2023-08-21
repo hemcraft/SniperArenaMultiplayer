@@ -38,6 +38,11 @@ public class NetworkEventsManager : MonoBehaviour, INetworkRunnerCallbacks
                         DateTime.UtcNow.Hour.ToString() + ":" + DateTime.UtcNow.Minute.ToString() + ":" + DateTime.UtcNow.Second.ToString();
 
             networkPlayerManager.GetComponent<NetworkPlayerRig>().SetEditorName();
+            userInterface.ShowMessage("Joined session\nWaiting for players");
+        }
+        else
+        {
+            userInterface.ShowMessage("New Player joined");
         }
     }
 
@@ -46,6 +51,7 @@ public class NetworkEventsManager : MonoBehaviour, INetworkRunnerCallbacks
         Debug.Log("OnPlayerLeft");
 
         userInterface.EnemyPlayerLeft(runner);
+        userInterface.ShowMessage("Player left");
     }
 
     public void OnConnectedToServer(NetworkRunner runner)
