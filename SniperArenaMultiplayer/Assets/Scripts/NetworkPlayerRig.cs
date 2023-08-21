@@ -32,6 +32,7 @@ public class NetworkPlayerRig : NetworkBehaviour
     private CharacterController characterController;
     private UserInterface userInterface;
     private SpawnManager spawnManager;
+    private GameSession gameSession;
 
     private bool running;
 
@@ -43,6 +44,7 @@ public class NetworkPlayerRig : NetworkBehaviour
         audioSource = GetComponent<AudioSource>();
         userInterface = FindObjectOfType<UserInterface>();
         spawnManager = FindObjectOfType<SpawnManager>();
+        gameSession = FindObjectOfType<GameSession>();
 
         if (networkObject.HasStateAuthority)
         {
@@ -196,7 +198,14 @@ public class NetworkPlayerRig : NetworkBehaviour
 
     private void LoadPlayerNickName()
     {
-        PlayerNickName = "PLAYER" + networkObject.Id;
+        if (gameSession != null && gameSession.nickName != "")
+        {
+            PlayerNickName = gameSession.nickName;
+        }
+        else
+        {
+            PlayerNickName = "PLAYER" + networkObject.Id;
+        }
     }
 
     private void Die()
