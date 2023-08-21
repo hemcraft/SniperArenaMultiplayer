@@ -31,6 +31,7 @@ public class NetworkPlayerRig : NetworkBehaviour
     private AudioSource audioSource;
     private CharacterController characterController;
     private UserInterface userInterface;
+    private SpawnManager spawnManager;
 
     private bool running;
 
@@ -41,6 +42,7 @@ public class NetworkPlayerRig : NetworkBehaviour
         characterController = GetComponent<CharacterController>();
         audioSource = GetComponent<AudioSource>();
         userInterface = FindObjectOfType<UserInterface>();
+        spawnManager = FindObjectOfType<SpawnManager>();
 
         if (networkObject.HasStateAuthority)
         {
@@ -136,8 +138,6 @@ public class NetworkPlayerRig : NetworkBehaviour
             {
                 NetworkPlayerRig enemyNetworkPlayerRig = hit.collider.GetComponent<NetworkPlayerRig>();
                 enemyNetworkPlayerRig.HitFromBullet();
-
-                Score = Score + 1;
             }
         }
 
@@ -155,7 +155,12 @@ public class NetworkPlayerRig : NetworkBehaviour
     {
         if (networkObject.HasStateAuthority)
         {
-            Health = Health - 20;
+            Health = Health - 50;
+
+            if (Health == 0)
+            {
+                Die();
+            }
         }
     }
 
@@ -192,5 +197,27 @@ public class NetworkPlayerRig : NetworkBehaviour
     private void LoadPlayerNickName()
     {
         PlayerNickName = "PLAYER" + networkObject.Id;
+    }
+
+    private void Die()
+    {
+        Health = 100;
+        transform.position = spawnManager.GetSpawnPoint().position;
+
+        userInterface.ShowRedPanel();
+
+        userInterface.enemyPlayerRig.RPCPlayerScoreIncrease();
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All, InvokeLocal = false)]
+    public void RPCPlayerScoreIncrease()
+    {
+        if (networkObject.HasStateAuthority)
+        {
+            Score = Score + 1;
+
+            Debug.Log("Score Increase");
+            userInterface.ShowGreenPanel();
+        }
     }
 }

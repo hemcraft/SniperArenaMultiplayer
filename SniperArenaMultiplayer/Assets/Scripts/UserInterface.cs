@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UserInterface : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class UserInterface : MonoBehaviour
     public GameObject EnemyPlayerScorePanel;
 
     public TextMeshProUGUI WaitingForOtherPlayersText;
+
+    public Image RedBackgroundImage;
+    public Image GreenBackgroundImage;
 
     public NetworkPlayerRig mainPlayerRig;
     public NetworkPlayerRig enemyPlayerRig;
@@ -66,5 +70,33 @@ public class UserInterface : MonoBehaviour
         }
 
         StartCoroutine(RefreshScoreBoardEverySecond());
+    }
+
+    public void ShowRedPanel()
+    {
+        StartCoroutine(ShowRedPanelInSeconds());
+    }
+
+    IEnumerator ShowRedPanelInSeconds()
+    {
+        RedBackgroundImage.enabled = true;
+
+        yield return new WaitForSeconds(2f);
+
+        RedBackgroundImage.enabled = false;
+    }
+
+    public void ShowGreenPanel()
+    {
+        StartCoroutine(ShowGreenPanelInSeconds());
+    }
+
+    IEnumerator ShowGreenPanelInSeconds()
+    {
+        GreenBackgroundImage.enabled = true;
+
+        yield return new WaitForSeconds(2f);
+
+        GreenBackgroundImage.enabled = false;
     }
 }
