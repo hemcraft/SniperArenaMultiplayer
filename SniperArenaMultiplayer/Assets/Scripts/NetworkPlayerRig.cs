@@ -157,7 +157,7 @@ public class NetworkPlayerRig : NetworkBehaviour
     {
         if (networkObject.HasStateAuthority)
         {
-            Health = Health - 50;
+            Health = Health - 20;
 
             if (Health == 0)
             {
