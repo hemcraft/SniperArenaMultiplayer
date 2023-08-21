@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -43,6 +44,29 @@ public class UserInterface : MonoBehaviour
 
         ShowWaitingForOtherPlayersText(false);
         ShowEnemyPlayerScore(true);
+    }
+
+    public void EnemyPlayerLeft(NetworkRunner runner)
+    {
+        mainPlayerRig.Score = 0;
+        mainPlayerRig.Health = 100;
+
+        NetworkObject enemyPlayerNetworkObject = enemyPlayerRig.GetComponent<NetworkObject>();
+        StartCoroutine(DespawnEnemyInSeconds(runner, enemyPlayerNetworkObject));
+
+        enemyPlayerRig = null;
+
+        ShowWaitingForOtherPlayersText(true);
+        ShowEnemyPlayerScore(false);
+    }
+
+    IEnumerator DespawnEnemyInSeconds(NetworkRunner runner, NetworkObject enemyPlayerNetworkObject)
+    {
+        enemyPlayerNetworkObject.RequestStateAuthority();
+
+        yield return new WaitForSeconds(1f);
+
+        runner.Despawn(enemyPlayerNetworkObject);
     }
 
     private void ShowWaitingForOtherPlayersText(bool value)

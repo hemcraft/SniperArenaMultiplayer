@@ -11,10 +11,12 @@ public class NetworkEventsManager : MonoBehaviour, INetworkRunnerCallbacks
 
     private NetworkObject networkPlayerManager;
     private SpawnManager spawnManager;
+    private UserInterface userInterface;
 
     private void Start()
     {
         spawnManager = FindObjectOfType<SpawnManager>();
+        userInterface = FindObjectOfType<UserInterface>();
     }
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
@@ -42,6 +44,8 @@ public class NetworkEventsManager : MonoBehaviour, INetworkRunnerCallbacks
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
         Debug.Log("OnPlayerLeft");
+
+        userInterface.EnemyPlayerLeft(runner);
     }
 
     public void OnConnectedToServer(NetworkRunner runner)
