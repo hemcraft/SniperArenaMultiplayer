@@ -8,9 +8,14 @@ public class NetworkPlayerRig : NetworkBehaviour
 {
     [Networked]
     public int Health { get; set; }
+    [Networked]
+    public int Score { get; set; }
 
     [Networked]
     public NetworkString<_64> PlayerEditorName { get; set; }
+
+    [Networked]
+    public NetworkString<_64> PlayerNickName { get; set; }
 
     public float speed;
     public NetworkObject networkObject;
@@ -49,11 +54,16 @@ public class NetworkPlayerRig : NetworkBehaviour
             Health = 100;
             healthSlider.value = Health;
             userInterface.healthValueText.text = Health.ToString();
+
+            LoadPlayerNickName();
+            userInterface.SetMainPlayerRig(this);
         }
         else
         {
             soldierMesh.layer = LayerMask.NameToLayer("EnemySoldier");
             weapon.layer = LayerMask.NameToLayer("PlayerSoldier");
+
+            userInterface.SetEnemyPlayerRig(this);
 
             StartCoroutine(SetEditorNameInSeconds());
         }
@@ -126,6 +136,8 @@ public class NetworkPlayerRig : NetworkBehaviour
             {
                 NetworkPlayerRig enemyNetworkPlayerRig = hit.collider.GetComponent<NetworkPlayerRig>();
                 enemyNetworkPlayerRig.HitFromBullet();
+
+                Score = Score + 1;
             }
         }
 
@@ -175,5 +187,10 @@ public class NetworkPlayerRig : NetworkBehaviour
         yield return new WaitForSeconds(2f);
 
         gameObject.name = PlayerEditorName.ToString();
+    }
+
+    private void LoadPlayerNickName()
+    {
+        PlayerNickName = "PLAYER" + networkObject.Id;
     }
 }
